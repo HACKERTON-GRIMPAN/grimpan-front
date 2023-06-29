@@ -2,8 +2,11 @@ import * as React from 'react';
 import { Button, Box, Center, Image, Text, VStack, HStack } from 'native-base';
 import { center } from '@shopify/react-native-skia';
 import { Animated } from 'react-native';
-export const Loading = ({ navigation }) => {
+import axios from 'axios';
+export const Loading = ({ navigation, route }) => {
   const [index, setIndex] = React.useState(0);
+  const [image, setImage] = React.useState({});
+
   const fadeAnim = React.useRef(new Animated.Value(1)).current;
 
   React.useEffect(() => {
@@ -24,6 +27,22 @@ export const Loading = ({ navigation }) => {
 
     return () => clearInterval(interval);
   }, [fadeAnim]);
+  React.useEffect(() => {
+    console.log(route);
+
+    axios
+      .post('https://emodiary.dcs-hyungjoon.com/api/v1/diary', {
+        title: '오늘은 날씨 맑음',
+        content:
+          '오늘은 아름다운 여름날씨에 감사하며 하루를 시작했습니다. 창문을 열고 상쾌한 바람이 들어오면서 싱그러운 느낌이 전해졌어요. 오늘은 나른한 주말 아침을 보내기로 마음먹었기 때문에 부지런히 일어나지 않았습니다..',
+      })
+      .then((e) => {
+        setImage(e.data.imageResponses);
+        navigation.navigate('Select', image);
+        console.log(e.data.imageResponses);
+      });
+  }, []);
+
   const ComponentA = () => (
     <Text bold fontSize='30' color='#3478F6'>
       슥삭슥삭

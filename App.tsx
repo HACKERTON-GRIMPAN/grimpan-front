@@ -5,8 +5,9 @@ import { Main } from './src/Main';
 
 import { NativeBaseProvider } from 'native-base';
 import { Loading } from './src/Loading';
+import Select from './src/Select';
+
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { PathGradient } from './src/PathGradient';
 const Stack = createStackNavigator();
 
 const MainTheme = {
@@ -23,9 +24,9 @@ export default function App() {
       <NavigationContainer theme={MainTheme}>
         <Stack.Navigator>
           <Stack.Screen
-            name='Main'
+            name='2023.06'
             component={Main}
-            options={{ headerShown: false }}
+            options={{ headerShown: true }}
           />
           <Stack.Screen
             name='Loading'
@@ -33,12 +34,9 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name='PathGradient'
-            component={PathGradient}
-            options={{
-              title: '🌈 PathGradient',
-              headerShown: false,
-            }}
+            name='Select'
+            component={Select}
+            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>
