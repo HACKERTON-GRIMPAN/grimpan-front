@@ -1,38 +1,49 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import type { Routes } from './src/Routes';
 import { Main } from './src/Main';
-import { PathGradient } from './src/PathGradient';
-import { LoadAssets } from './src/LoadAssets';
 
 import { NativeBaseProvider } from 'native-base';
-const fonts = {};
-const assets: number[] = [];
-const Stack = createStackNavigator<Routes>();
-const AppNavigator = () => (
-  <Stack.Navigator>
-    {/* <Stack.Screen name='Main' component={Main} /> */}
-    <Stack.Screen
-      name='PathGradient'
-      component={PathGradient}
-      options={{
-        title: '🌈 PathGradient',
-        headerShown: false,
-      }}
-    />
-  </Stack.Navigator>
-);
+import { Loading } from './src/Loading';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { PathGradient } from './src/PathGradient';
+const Stack = createStackNavigator();
 
-const App = () => {
-  return (
-    <LoadAssets assets={assets} fonts={fonts}>
-      <NativeBaseProvider>
-        <AppNavigator />
-      </NativeBaseProvider>
-    </LoadAssets>
-  );
+const MainTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'white',
+  },
 };
 
+export default function App() {
+  return (
+    <NativeBaseProvider>
+      <NavigationContainer theme={MainTheme}>
+        <Stack.Navigator>
+          <Stack.Screen
+            name='Main'
+            component={Main}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='Loading'
+            component={Loading}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='PathGradient'
+            component={PathGradient}
+            options={{
+              title: '🌈 PathGradient',
+              headerShown: false,
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
+  );
+}
+
 // eslint-disable-next-line import/no-default-export
-export default App;
