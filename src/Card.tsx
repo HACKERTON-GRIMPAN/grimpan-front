@@ -14,7 +14,8 @@ import {
   IconButton,
   Icon,
 } from 'native-base';
-import RNFS from 'react-native-fs';
+import { Buffer } from 'buffer';
+import * as FileSystem from 'expo-file-system';
 import { StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -22,37 +23,41 @@ import GestureFlipView from 'react-native-gesture-flip-card';
 import { Entypo } from '@expo/vector-icons';
 import Share from 'react-native-share';
 export default function Card({ navigation, route }) {
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(
+    'file:///Users/min/Library/Developer/CoreSimulator/Devices/A877657A-8214-472D-8296-8CE4A9415127/data/Containers/Data/Application/325DD7A7-3765-4D11-B511-361C8AD3BB74/Documents/ExponentExperienceData/%2540anonymous%252FEmodiary-a7494add-4972-42f8-894c-ed1227febed8/localImage.png'
+  );
   const [selected, setSelected] = useState([false, false, false, false]);
-  const localFile = `${RNFS.DocumentDirectoryPath}/localImage.png`;
 
   useEffect(() => {
     setImage(route.params);
     console.log(route.params);
     console.log(selected);
   }, [selected]);
+
+  const share = async (customOptions) => {
+    try {
+      await Share.open(customOptions);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const imageUrl =
+    'https://emodiary.dcs-hyungjoon.com/api/v1/diary/images?uuid=e54cae74-169a-11ee-92f6-0242ac130005.png&size=500'; // 다운로드 받을 이미지의 URL
+  const localUri = FileSystem.documentDirectory + 'localImage.png';
   useEffect(() => {
     axios({
       method: 'get',
-      url: 'https://emodiary.dcs-hyungjoon.com/api/v1/diary/images?uuid=e54cae74-169a-11ee-92f6-0242ac130005.png',
-      responseType: 'blob',
+      url: imageUrl,
+      responseType: 'arrayBuffer',
     })
-      .then((response) => {
-        const base64 = btoa(
-          new Uint8Array(response.data).reduce(
-            (data, byte) => data + String.fromCharCode(byte),
-            ''
-          )
-        );
-        return `data:${response.headers[
-          'content-type'
-        ].toLowerCase()};base64,${base64}`;
-      })
-      .then((base64Data) => {
-        RNFS.writeFile(localFile, base64Data, 'base64');
-      })
-      .then(() => {
-        console.log(`Image downloaded to: ${localFile}`);
+      .then(async (response) => {
+        const base64 = Buffer.from(response.data, 'binary').toString('base64');
+        const base64Data = `data:image/jpeg;base64,${base64}`;
+        await FileSystem.writeAsStringAsync(localUri, base64Data, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        console.log(`Image downloaded to: ${localUri}`);
+        setImage(localUri);
       })
       .catch((error) => {
         console.error(error);
@@ -66,7 +71,7 @@ export default function Card({ navigation, route }) {
           size={300}
           alt='image'
           source={{
-            uri: 'https://emodiary.dcs-hyungjoon.com/api/v1/diary/images?uuid=e54cae74-169a-11ee-92f6-0242ac130005.png',
+            uri: 'https://emodiary.dcs-hyungjoon.com/api/v1/diary/images?uuid=e54cae74-169a-11ee-92f6-0242ac130005.png&size=300',
           }}
         ></Image>
       </Box>
@@ -113,13 +118,13 @@ export default function Card({ navigation, route }) {
 
       <Box alignItems='center' mt={50}>
         <IconButton
-          //   onPress={async () => {
-          //     await share({
-          //       title: 'Sharing image file from awesome share app',
-          //       message: 'Please take a look at this image',
-          //       url: file.img,
-          //     });
-          //   }}
+          onPress={async () => {
+            await share({
+              title: 'Sharing image file from awesome share app',
+              message: 'Please take a look at this image',
+              url: image,
+            });
+          }}
           icon={<Icon as={Entypo} name='share' />}
           borderRadius='full'
           _icon={{

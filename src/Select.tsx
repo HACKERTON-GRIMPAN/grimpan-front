@@ -43,14 +43,14 @@ export default function Select({ navigation, route }) {
         <HStack space={5}>
           <Image
             rounded={'3xl'}
-            source={{ uri: image[0] }}
+            source={{ uri: `${image[0]}&size=150` }}
             alt='loading image'
             key={0}
             size='150'
           ></Image>
           <Image
             rounded={'3xl'}
-            source={{ uri: image[1] }}
+            source={{ uri: `${image[1]}&size=150` }}
             alt='loading image'
             key={1}
             size='150'
@@ -59,7 +59,7 @@ export default function Select({ navigation, route }) {
         <HStack space={5}>
           <Image
             rounded={'3xl'}
-            source={{ uri: image[2] }}
+            source={{ uri: `${image[2]}&size=150` }}
             alt='loading image'
             key={0}
             size='150'
@@ -90,7 +90,7 @@ export default function Select({ navigation, route }) {
                 >
                   <Image
                     rounded={'3xl'}
-                    source={{ uri: image[3] }}
+                    source={{ uri: `${image[3]}&size=150` }}
                     alt='loading image'
                     key={1}
                     size='150'
