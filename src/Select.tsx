@@ -7,36 +7,26 @@ import {
   FormControl,
   Input,
   Image,
+  Pressable,
   Button,
   HStack,
   Center,
 } from 'native-base';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function Select({ navigation, route }) {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
-  const baseURL = 'https://hg3498-app.azurewebsites.net/api/';
+  const [image, setImage] = useState([]);
+  const [selected, setSelected] = useState([false, false, false, false]);
 
-  const logIn = () => {
-    axios
-      .post(`${baseURL}user`, {
-        userId: id,
-        userPw: password,
-      })
-      .then(function (response) {
-        navigation.dispatch(StackActions.replace('Main', {}));
-
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
+  useEffect(() => {
+    setImage(route.params);
+    console.log(route.params);
+    console.log(selected);
+  }, [selected]);
 
   return (
-    <Center flex={1}>
+    <Center flex={1} safeArea mt={100}>
       <HStack>
         <Text bold fontSize='30' color='#3478F6'>
           마음에 드는 그림
@@ -49,18 +39,80 @@ export default function Select({ navigation, route }) {
         </Text>
         <Text fontSize={'30'}>를 간직하세요</Text>
       </HStack>
-      <Image
-        source={{ uri:  }}
-        alt='loading image'
-        size='400'
-        style={{
-          position: 'absolute', // 이미지의 위치를 절대값으로 설정합니다.
-          top: 300,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-      ></Image>
+      <VStack flex={2} mt={50} space={5}>
+        <HStack space={5}>
+          <Image
+            rounded={'3xl'}
+            source={{ uri: image[0] }}
+            alt='loading image'
+            key={0}
+            size='150'
+          ></Image>
+          <Image
+            rounded={'3xl'}
+            source={{ uri: image[1] }}
+            alt='loading image'
+            key={1}
+            size='150'
+          ></Image>
+        </HStack>
+        <HStack space={5}>
+          <Image
+            rounded={'3xl'}
+            source={{ uri: image[2] }}
+            alt='loading image'
+            key={0}
+            size='150'
+          ></Image>
+          <Pressable maxW='96'>
+            {({ isHovered, isFocused, isPressed }) => {
+              return (
+                <Box
+                  bg={
+                    isPressed
+                      ? 'coolGray.200'
+                      : isHovered
+                      ? 'coolGray.200'
+                      : 'coolGray.100'
+                  }
+                  style={{
+                    transform: [
+                      {
+                        scale: isPressed ? 0.96 : 1,
+                      },
+                    ],
+                  }}
+                  rounded='3xl'
+                  p={1}
+                  shadow={5}
+                  borderWidth='1'
+                  borderColor='coolGray.300'
+                >
+                  <Image
+                    rounded={'3xl'}
+                    source={{ uri: image[3] }}
+                    alt='loading image'
+                    key={1}
+                    size='150'
+                  ></Image>
+                </Box>
+              );
+            }}
+          </Pressable>
+        </HStack>
+      </VStack>
+      <Box mb={30}>
+        <Button
+          h={60}
+          onPress={() => navigation.navigate('Card')}
+          w='350'
+          rounded='2xl'
+          colorScheme='indigo'
+          _text={{ fontSize: 20, bold: true }}
+        >
+          이 그림으로 저장할래요
+        </Button>
+      </Box>
     </Center>
   );
 }

@@ -6,7 +6,7 @@ import { Main } from './src/Main';
 import { NativeBaseProvider } from 'native-base';
 import { Loading } from './src/Loading';
 import Select from './src/Select';
-
+import Card from './src/Card';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 const Stack = createStackNavigator();
 
@@ -36,6 +36,11 @@ export default function App() {
           <Stack.Screen
             name='Select'
             component={Select}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='Card'
+            component={Card}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
