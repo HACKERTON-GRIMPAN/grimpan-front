@@ -40,5 +40,6 @@ npx expo start
 9. 동일한 네트워크에 연결 합니다 (ex. 같은 와이파이)
 10. 생성된 QR을 찍으면 expo로 이동하면서 앱이 실행됩니다.
 <img width="822" alt="스크린샷 2023-06-23 오전 6 44 37" src="https://github.com/hackersground-kr/Get-It/assets/58356850/01f0e198-4db7-478e-911b-3bdde9e31bd5">
+
 ## 중요 : 원할한 배포를 위해서 일부 네이티브 라이브러리 모듈을 비활성화 시켰습니다
 tip. 중간에 앱이 멈췄다면 터미널에서 'r'키를 눌러서 reload를 해주면 됩니다
