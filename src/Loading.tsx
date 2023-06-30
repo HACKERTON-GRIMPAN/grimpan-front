@@ -43,9 +43,20 @@ export const Loading = ({ navigation, route }) => {
   }, []);
 
   const ComponentA = () => (
-    <Text bold fontSize='30' color='#3478F6'>
-      슥삭슥삭
-    </Text>
+    <Center>
+      <HStack>
+        <Text bold fontSize='30' color='#3478F6'>
+          오늘의 추억
+        </Text>
+        <Text fontSize={'30'}>을</Text>
+      </HStack>
+      <HStack>
+        <Text bold fontSize={'30'} color='#3478F6'>
+          그림
+        </Text>
+        <Text fontSize={'30'}>으로 저장하고 있어요</Text>
+      </HStack>
+    </Center>
   );
   const ComponentB = () => (
     <Box>
@@ -74,20 +85,9 @@ export const Loading = ({ navigation, route }) => {
     </Center>
   );
   const ComponentD = () => (
-    <Center>
-      <HStack>
-        <Text bold fontSize='30' color='#3478F6'>
-          오늘의 추억
-        </Text>
-        <Text fontSize={'30'}>을</Text>
-      </HStack>
-      <HStack>
-        <Text bold fontSize={'30'} color='#3478F6'>
-          그림
-        </Text>
-        <Text fontSize={'30'}>으로 저장하고 있어요</Text>
-      </HStack>
-    </Center>
+    <Text bold fontSize='30' color='#3478F6'>
+      슥삭슥삭
+    </Text>
   );
 
   const components = [ComponentA, ComponentB, ComponentC, ComponentD];

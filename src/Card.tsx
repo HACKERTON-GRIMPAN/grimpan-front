@@ -28,7 +28,7 @@ export default function Card({ navigation, route }) {
   const [imageUri, setImageUri] = useState(null);
   const [image, setImage] = useState('');
   const [selected, setSelected] = useState([false, false, false, false]);
-
+  const [base, setBase] = useState('');
   useEffect(() => {
     setImage(route.params);
     console.log(route.params);
@@ -47,17 +47,13 @@ export default function Card({ navigation, route }) {
     'https://emodiary.dcs-hyungjoon.com/api/v1/diary/images?uuid=e54cae74-169a-11ee-92f6-0242ac130005.png&size=500'; // 다운로드 받을 이미지의 URL
   const localUri = FileSystem.documentDirectory + 'localImage.jpeg';
   useEffect(() => {
+    console.log(route.params);
     const fetchImage = async () => {
       const response = await RNFetchBlob.fetch(
         'GET',
-        'https://emodiary.dcs-hyungjoon.com/api/v1/diary/images?uuid=e54cae74-169a-11ee-92f6-0242ac130005.png&size=300'
+        `${route.params}&size=300`
       ).then((response) => {
-        share({
-          title: '오늘 내 기분',
-          message: '오늘 내 기분',
-          social: Share.Social.MESSENGER,
-          url: `data:image/png;base64,${response.base64()}`,
-        });
+        setBase(`data:image/png;base64,${response.base64()}`);
       });
     };
     fetchImage();
@@ -67,10 +63,11 @@ export default function Card({ navigation, route }) {
     return (
       <Box style={styles.frontStyle} shadow={5}>
         <Image
+          rounded={'2xl'}
           size={300}
           alt='image'
           source={{
-            uri: 'https://emodiary.dcs-hyungjoon.com/api/v1/diary/images?uuid=e54cae74-169a-11ee-92f6-0242ac130005.png&size=300',
+            uri: `${route.params}&size=300`,
           }}
         ></Image>
       </Box>
@@ -117,9 +114,14 @@ export default function Card({ navigation, route }) {
 
       <Box alignItems='center' mt={50}>
         <IconButton
-          //    onPress={async () => {
-          //       await
-          //      }}
+          onPress={async () => {
+            await share({
+              title: '오늘 내 기분',
+              message: '오늘 내 기분',
+              type: 'image',
+              url: base,
+            });
+          }}
           icon={<Icon as={Entypo} name='share' />}
           borderRadius='full'
           _icon={{

@@ -7,6 +7,7 @@ import { NativeBaseProvider } from 'native-base';
 import { Loading } from './src/Loading';
 import Select from './src/Select';
 import Card from './src/Card';
+import { Wallet } from './src/Wallet';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 const Stack = createStackNavigator();
 
@@ -23,6 +24,11 @@ export default function App() {
     <NativeBaseProvider>
       <NavigationContainer theme={MainTheme}>
         <Stack.Navigator>
+          <Stack.Screen
+            name='홈'
+            component={Wallet}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name='2023.06'
             component={Main}
