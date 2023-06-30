@@ -27,8 +27,8 @@ node -v
 ```
 4. 터미널에서 clone한 repository로 이동하여 node package manager를 사용해 라이브러리를 설치해줍니다
 ```ps1
-cd Get-It
-npm i
+cd grimpan-front
+yarn
 ```
 5. 패키지 설치가 완료될때까지 기다립니다. (10분 가량 소요됩니다.)
 6. 설치가 완료되면 expo를 실행시켜 배포를 활성화 합니다
