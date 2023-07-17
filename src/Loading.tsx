@@ -106,7 +106,7 @@ export const Loading = ({ navigation, route }) => {
         alt='loading image'
         size='400'
         style={{
-          position: 'absolute', // 이미지의 위치를 절대값으로 설정합니다.
+          position: 'absolute',
           top: 300,
           left: 0,
           right: 0,
